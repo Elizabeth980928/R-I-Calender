@@ -1,1 +1,347 @@
-hi
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SITA SOC LTD – 2025 Calendar</title>
+<style>
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  header img {
+    height: 50px;
+  }
+
+  header h1 {
+    color: #003366;
+    font-size: 1.5rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  .slider-wrapper {
+    position: relative;
+    max-width: 950px;
+    margin: auto;
+  }
+
+  .month-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+
+  .month-card h2 {
+    text-align: center;
+    background: #003366;
+    color: #fff;
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+  }
+
+  .calendar-grid div {
+    border: 1px solid #ddd;
+    padding: 8px;
+    min-height: 70px;
+    position: relative;
+  }
+
+  .calendar-grid .day-name {
+    background: #009688;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .event {
+    display: block;
+    margin-top: 3px;
+    background: #ffeb3b;
+    color: #000;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    padding: 2px 4px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .event:hover {
+    background: #fdd835;
+    transform: translateY(-2px);
+  }
+
+  .highlight {
+    background: #009688;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  /* Arrows */
+  .arrow {
+    position: absolute;
+    top: 45%;
+    font-size: 2rem;
+    color: #003366;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .arrow:hover { background: rgba(0,150,136,0.8); color: #fff; }
+
+  .prev { left: -50px; }
+  .next { right: -50px; }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+
+  .modal-content h3 {
+    margin-top: 0;
+    color: #003366;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #003366;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: #003366;
+    color: #fff;
+    border-radius: 8px;
+  }
+
+  @media(max-width:500px){
+    .arrow { font-size:1.5rem; width:30px; height:30px; line-height:28px; }
+  }
+</style>
+</head>
+<body>
+<header style="
+  background: linear-gradient(90deg, #003366, #009688);
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  color: #fff;
+  max-width: 900px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+">
+  <div style="display:flex; align-items:center; gap:15px;">
+    <img src="sita.jfif" alt="SITA Logo" style="height:60px;">
+    <div>
+      <h1 style="margin:0; font-size:1.5rem; font-weight:700;color:white">Research and Innovation</h1>
+      <p style="margin:2px 0 0 0; font-size:1rem; font-weight:500;">Delivery Department</p>
+    </div>
+  </div>
+  <div style="font-size:1rem;">2025 Calendar</div>
+</header>
+
+</br>
+
+
+<div class="slider-wrapper">
+  <div class="arrow prev">&#10094;</div>
+  <div id="monthContainer"></div>
+  <div class="arrow next">&#10095;</div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="eventModal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p><strong>Date:</strong> <span id="modalDate"></span></p>
+    <p><strong>Venue:</strong> <span id="modalVenue"></span></p>
+    <p><strong>Organizer:</strong> <span id="modalOrganizer"></span></p>
+    <p id="modalDescription"></p>
+  </div>
+</div>
+
+<script>
+const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const dayNames=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+let currentMonth = 0;
+
+// Auto-generate Brownbag Wednesdays twice a month
+function getBrownbagWednesdays(monthIdx){
+  const firstTwo=[];
+  let count=0;
+  for(let d=1; d<=31; d++){
+    const tmp=new Date(2025,monthIdx,d);
+    if(tmp.getMonth()!==monthIdx) break;
+    if(tmp.getDay()===3){
+      firstTwo.push(tmp.getDate());
+      count++;
+      if(count===2) break;
+    }
+  }
+  return firstTwo;
+}
+
+// Add other corporate events here per month
+const corporateEvents = {
+  "Jan":[{name:"AI Day", date:15, venue:"Auditorium", organizer:"Tech Team", highlight:true}],
+  "Feb":[{name:"Innovation Day", date:20, venue:"Main Hall", organizer:"Innovation Team", highlight:true},
+        {name:"Cyber Security Day", date:28, venue:"Online", organizer:"Security Team", highlight:true}],
+  // Add remaining months similarly...
+};
+
+function generateMonth(monthIdx){
+  const container=document.getElementById("monthContainer");
+  container.innerHTML="";
+  const monthCard=document.createElement("div");
+  monthCard.classList.add("month-card");
+
+  const header=document.createElement("h2");
+  header.textContent=monthNames[monthIdx]+" 2025";
+  monthCard.appendChild(header);
+
+  const grid=document.createElement("div");
+  grid.classList.add("calendar-grid");
+
+  dayNames.forEach(d=>{
+    const dayEl=document.createElement("div");
+    dayEl.classList.add("day-name");
+    dayEl.textContent=d;
+    grid.appendChild(dayEl);
+  });
+
+  const firstDay=new Date(2025,monthIdx,1).getDay();
+  const daysInMonth=new Date(2025,monthIdx+1,0).getDate();
+
+  for(let i=0;i<firstDay;i++) grid.appendChild(document.createElement("div"));
+
+  const brownbags=getBrownbagWednesdays(monthIdx);
+  for(let d=1; d<=daysInMonth; d++){
+    const dayCell=document.createElement("div");
+    dayCell.textContent=d;
+
+    // Brownbag Wednesdays
+    if(brownbags.includes(d)){
+      const ev=document.createElement("span");
+      ev.classList.add("event","highlight");
+      ev.textContent="Brownbag Wednesday";
+      ev.addEventListener("click", ()=>{
+        document.getElementById("modalTitle").textContent="Brownbag Wednesday";
+        document.getElementById("modalDate").textContent=`2025-${monthIdx+1}-${d}`;
+        document.getElementById("modalVenue").textContent="Online";
+        document.getElementById("modalOrganizer").textContent="HR Team";
+        document.getElementById("modalDescription").textContent="Twice a month knowledge sharing.";
+        document.getElementById("eventModal").style.display="flex";
+      });
+      dayCell.appendChild(ev);
+    }
+
+    // Corporate events
+    if(corporateEvents[monthNames[monthIdx]]){
+      corporateEvents[monthNames[monthIdx]].forEach(ev=>{
+        if(ev.date===d){
+          const evEl=document.createElement("span");
+          evEl.classList.add("event");
+          if(ev.highlight) evEl.classList.add("highlight");
+          evEl.textContent=ev.name;
+          evEl.addEventListener("click", ()=>{
+            document.getElementById("modalTitle").textContent=ev.name;
+            document.getElementById("modalDate").textContent=`2025-${monthIdx+1}-${d}`;
+            document.getElementById("modalVenue").textContent=ev.venue;
+            document.getElementById("modalOrganizer").textContent=ev.organizer;
+            document.getElementById("modalDescription").textContent="Corporate event.";
+            document.getElementById("eventModal").style.display="flex";
+          });
+          dayCell.appendChild(evEl);
+        }
+      });
+    }
+
+    grid.appendChild(dayCell);
+  }
+
+  monthCard.appendChild(grid);
+  container.appendChild(monthCard);
+}
+
+// initial month
+generateMonth(currentMonth);
+
+// navigation
+document.querySelector(".prev").addEventListener("click",()=>{
+  currentMonth = (currentMonth -1 +12)%12;
+  generateMonth(currentMonth);
+});
+document.querySelector(".next").addEventListener("click",()=>{
+  currentMonth = (currentMonth +1)%12;
+  generateMonth(currentMonth);
+});
+
+// modal close
+document.getElementById("closeModal").addEventListener("click", ()=>{
+  document.getElementById("eventModal").style.display="none";
+});
+window.addEventListener("click", e=>{
+  if(e.target==document.getElementById("eventModal")){
+    document.getElementById("eventModal").style.display="none";
+  }
+});
+</script>
+
+<footer>
+  &copy; 2025 SITA SOC LTD
+</footer>
+
+</body>
+</html>
