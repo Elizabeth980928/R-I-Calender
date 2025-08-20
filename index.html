@@ -5,236 +5,167 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SITA SOC LTD – 2025 Calendar</title>
 <style>
-/* Base body */
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: #f4f6f9;
-  margin: 0;
-  padding: 20px;
-  color: #333;
-}
-
-/* Header */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 15px 25px;
-  max-width: 900px;
-  margin: auto;
-  border-radius: 12px;
-  color: #fff;
-  background: linear-gradient(90deg, #003366, #009688);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-header img {
-  height: 50px;
-}
-
-header h1 {
-  font-size: 1.5rem;
-  margin: 0;
-}
-
-header p {
-  margin: 2px 0 0 0;
-  font-size: 1rem;
-}
-
-/* Slider wrapper */
-.slider-wrapper {
-  position: relative;
-  max-width: 950px;
-  margin: auto;
-}
-
-/* Month card */
-.month-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.month-card h2 {
-  text-align: center;
-  margin: 0;
-  padding: 10px 0;
-  background: linear-gradient(90deg, #003366, #009688);
-  color: #fff;
-  font-weight: 600;
-  border-radius: 8px 8px 0 0;
-}
-
-/* Calendar grid */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-}
-
-.calendar-grid div {
-  border: 1px solid #ddd;
-  padding: 8px;
-  min-height: 70px;
-  position: relative;
-}
-
-.calendar-grid .day-name {
-  background: #009688;
-  color: #fff;
-  font-weight: bold;
-}
-
-/* Events */
-.event {
-  display: block;
-  margin-top: 3px;
-  background: #ffeb3b;
-  color: #000;
-  font-size: 0.75rem;
-  border-radius: 4px;
-  padding: 2px 4px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-
-.event:hover {
-  background: #fdd835;
-  transform: translateY(-2px);
-}
-
-.highlight {
-  background: #009688;
-  color: #fff;
-  font-weight: bold;
-}
-
-/* Arrows */
-.arrow {
-  position: absolute;
-  top: 45%;
-  font-size: 2rem;
-  color: #003366;
-  background: rgba(255,255,255,0.8);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  line-height: 36px;
-  text-align: center;
-  cursor: pointer;
-  z-index: 10;
-  user-select: none;
-  transition: background 0.2s;
-}
-
-.arrow:hover {
-  background: rgba(0,150,136,0.8);
-  color: #fff;
-}
-
-.prev { left: -50px; }
-.next { right: -50px; }
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  position: relative;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-.modal-content h3 { margin-top: 0; color: #003366; }
-
-.close-btn {
-  position: absolute;
-  top: 10px; right: 15px;
-  cursor: pointer;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #003366;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  margin-top: 20px;
-  padding: 15px;
-  background: #003366;
-  color: #fff;
-  border-radius: 8px;
-}
-
-/* --- Responsive Styles --- */
-
-/* Small tablets */
-@media (max-width: 992px) {
-  .calendar-grid {
-    grid-template-columns: repeat(4, 1fr);
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
   }
 
-  .arrow.prev { left: -30px; }
-  .arrow.next { right: -30px; }
-}
-
-/* Mobile devices */
-@media (max-width: 768px) {
   header {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
   }
 
-  .calendar-grid {
-    grid-template-columns: repeat(2, 1fr);
+  header img {
+    height: 50px;
   }
 
-  .arrow.prev, .arrow.next {
-    top: 40%;
+  header h1 {
+    color: #003366;
     font-size: 1.5rem;
-    width: 35px;
-    height: 35px;
-    line-height: 33px;
+    margin: 0;
+    text-align: center;
   }
-}
 
-/* Extra small screens */
-@media (max-width: 500px) {
+  .slider-wrapper {
+    position: relative;
+    max-width: 950px;
+    margin: auto;
+  }
+
+  .month-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+
+  .month-card h2 {
+    text-align: center;
+    background: #003366;
+    color: #fff;
+    margin: 0;
+    padding: 10px 0;
+  }
+
   .calendar-grid {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
   }
 
-  header h1 { font-size: 1.2rem; }
-  header p { font-size: 0.9rem; }
-
-  .arrow.prev, .arrow.next {
-    top: 35%;
-    font-size: 1.2rem;
-    width: 30px;
-    height: 30px;
-    line-height: 28px;
+  .calendar-grid div {
+    border: 1px solid #ddd;
+    padding: 8px;
+    min-height: 70px;
+    position: relative;
   }
 
-  .calendar-grid div { min-height: 60px; padding: 6px; }
-}
+  .calendar-grid .day-name {
+    background: #009688;
+    color: #fff;
+    font-weight: bold;
+  }
 
+  .event {
+    display: block;
+    margin-top: 3px;
+    background: #ffeb3b;
+    color: #000;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    padding: 2px 4px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .event:hover {
+    background: #fdd835;
+    transform: translateY(-2px);
+  }
+
+  .highlight {
+    background: #009688;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  /* Arrows */
+  .arrow {
+    position: absolute;
+    top: 45%;
+    font-size: 2rem;
+    color: #003366;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .arrow:hover { background: rgba(0,150,136,0.8); color: #fff; }
+
+  .prev { left: -50px; }
+  .next { right: -50px; }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+
+  .modal-content h3 {
+    margin-top: 0;
+    color: #003366;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #003366;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: #003366;
+    color: #fff;
+    border-radius: 8px;
+  }
+
+  @media(max-width:500px){
+    .arrow { font-size:1.5rem; width:30px; height:30px; line-height:28px; }
+  }
 </style>
 </head>
 <body>
@@ -304,11 +235,48 @@ function getBrownbagWednesdays(monthIdx){
 
 // Add other corporate events here per month
 const corporateEvents = {
-  "Jan":[{name:"AI Day", date:15, venue:"Auditorium", organizer:"Tech Team", highlight:true}],
-  "Feb":[{name:"Innovation Day", date:20, venue:"Main Hall", organizer:"Innovation Team", highlight:true},
-        {name:"Cyber Security Day", date:28, venue:"Online", organizer:"Security Team", highlight:true}],
-  // Add remaining months similarly...
+  "January":[
+    {name:"AI Day", date:15, venue:"Auditorium", organizer:"Tech Team", highlight:true}
+  ],
+  "February":[
+    {name:"Innovation Day", date:20, venue:"Main Hall", organizer:"Innovation Team", highlight:true},
+    {name:"Cyber Security Day", date:28, venue:"Online", organizer:"Security Team", highlight:true}
+  ],
+  "March":[
+    {name:"Internal Hackathon", date:12, venue:"Tech Lab", organizer:"Dev Team", highlight:true},
+    {name:"TVET Innovation Day", date:25, venue:"Auditorium", organizer:"Education Team"}
+  ],
+  "April":[
+    {name:"Incubation Launch", date:10, venue:"Startup Hub", organizer:"Incubation Team", highlight:true},
+    {name:"World of Possibilities", date:18, venue:"Conference Room", organizer:"Outreach Team"}
+  ],
+  "May":[
+    {name:"Women in Innovation", date:14, venue:"Main Hall", organizer:"Innovation Team", highlight:true}
+  ],
+  "June":[
+    {name:"Corporate Partnership Demo", date:5, venue:"Auditorium", organizer:"Partnership Team"}
+  ],
+  "July":[
+    {name:"Go Live Event", date:22, venue:"Online", organizer:"Tech Team"}
+  ],
+  "August":[
+    {name:"Adjudication Application", date:11, venue:"Conference Room", organizer:"HR Team"},
+    {name:"Capture Real Data", date:27, venue:"Tech Lab", organizer:"Data Team"}
+  ],
+  "September":[
+    {name:"Innovation Day", date:19, venue:"Main Hall", organizer:"Innovation Team", highlight:true}
+  ],
+  "October":[
+    {name:"Cyber Security Day", date:14, venue:"Online", organizer:"Security Team"}
+  ],
+  "November":[
+    {name:"Internal Hackathon", date:7, venue:"Tech Lab", organizer:"Dev Team", highlight:true}
+  ],
+  "December":[
+    {name:"Incubation Launch", date:5, venue:"Startup Hub", organizer:"Incubation Team"}
+  ]
 };
+
 
 function generateMonth(monthIdx){
   const container=document.getElementById("monthContainer");
