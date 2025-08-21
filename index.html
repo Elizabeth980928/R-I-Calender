@@ -19,6 +19,8 @@
     justify-content: center;
     gap: 15px;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* allows wrapping on small screens */
+    text-align: center;
   }
 
   header img {
@@ -29,13 +31,13 @@
     color: #003366;
     font-size: 1.5rem;
     margin: 0;
-    text-align: center;
   }
 
   .slider-wrapper {
     position: relative;
     max-width: 950px;
     margin: auto;
+    padding: 0 10px;
   }
 
   .month-card {
@@ -51,6 +53,7 @@
     color: #fff;
     margin: 0;
     padding: 10px 0;
+    font-size: 1.2rem;
   }
 
   .calendar-grid {
@@ -64,6 +67,7 @@
     padding: 4px;
     min-height: 70px;
     position: relative;
+    font-size: 0.9rem;
   }
 
   .calendar-grid .day-name {
@@ -77,11 +81,12 @@
     margin-top: 3px;
     background: #ffeb3b;
     color: #000;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     border-radius: 4px;
     padding: 2px 4px;
     cursor: pointer;
     transition: transform 0.2s, background 0.2s;
+    word-wrap: break-word;
   }
 
   .event:hover {
@@ -161,9 +166,24 @@
     background: #003366;
     color: #fff;
     border-radius: 8px;
+    font-size: 0.9rem;
   }
 
-  @media(max-width:500px){
+  /* ====================== RESPONSIVE ====================== */
+  @media(max-width: 900px){
+    header {
+      flex-direction: column;
+      text-align: center;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+  }
+
+  @media(max-width: 700px){
+    body { padding: 10px; }
+    .calendar-grid { grid-template-columns: repeat(4, 1fr); }
+    .calendar-grid div { min-height: 60px; font-size: 0.8rem; }
+    .event { font-size: 0.65rem; }
     .arrow { font-size:1.5rem; width:30px; height:30px; line-height:28px; }
   }
 </style>
@@ -181,7 +201,7 @@
   margin: auto;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 ">
-  <div style="display:flex; align-items:center; gap:15px;">
+  <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap; justify-content:center;">
     <img src="sita.jfif" alt="SITA Logo" style="height:60px;">
     <div>
       <h1 style="margin:0; font-size:1.5rem; font-weight:700;color:white">Research and Innovation</h1>
@@ -192,7 +212,6 @@
 </header>
 
 </br>
-
 
 <div class="slider-wrapper">
   <div class="arrow prev">&#10094;</div>
@@ -235,9 +254,7 @@ function getBrownbagWednesdays(monthIdx){
 
 // Add other corporate events here per month
 const corporateEvents = {
-  "January":[
-    {name:"AI Day", date:15, venue:"Auditorium", organizer:"Tech Team", highlight:true}
-  ],
+  "January":[ {name:"AI Day", date:15, venue:"Auditorium", organizer:"Tech Team", highlight:true} ],
   "February":[
     {name:"Innovation Day", date:20, venue:"Main Hall", organizer:"Innovation Team", highlight:true},
     {name:"Cyber Security Day", date:28, venue:"Online", organizer:"Security Team", highlight:true}
@@ -250,33 +267,18 @@ const corporateEvents = {
     {name:"Incubation Launch", date:10, venue:"Startup Hub", organizer:"Incubation Team", highlight:true},
     {name:"World of Possibilities", date:18, venue:"Conference Room", organizer:"Outreach Team"}
   ],
-  "May":[
-    {name:"Women in Innovation", date:14, venue:"Main Hall", organizer:"Innovation Team", highlight:true}
-  ],
-  "June":[
-    {name:"Corporate Partnership Demo", date:5, venue:"Auditorium", organizer:"Partnership Team"}
-  ],
-  "July":[
-    {name:"Go Live Event", date:22, venue:"Online", organizer:"Tech Team"}
-  ],
+  "May":[ {name:"Women in Innovation", date:14, venue:"Main Hall", organizer:"Innovation Team", highlight:true} ],
+  "June":[ {name:"Corporate Partnership Demo", date:5, venue:"Auditorium", organizer:"Partnership Team"} ],
+  "July":[ {name:"Go Live Event", date:22, venue:"Online", organizer:"Tech Team"} ],
   "August":[
     {name:"Adjudication Application", date:11, venue:"Conference Room", organizer:"HR Team"},
     {name:"Capture Real Data", date:27, venue:"Tech Lab", organizer:"Data Team"}
   ],
-  "September":[
-    {name:"Innovation Day", date:19, venue:"Main Hall", organizer:"Innovation Team", highlight:true}
-  ],
-  "October":[
-    {name:"Cyber Security Day", date:14, venue:"Online", organizer:"Security Team"}
-  ],
-  "November":[
-    {name:"Internal Hackathon", date:7, venue:"Tech Lab", organizer:"Dev Team", highlight:true}
-  ],
-  "December":[
-    {name:"Incubation Launch", date:5, venue:"Startup Hub", organizer:"Incubation Team"}
-  ]
+  "September":[ {name:"Innovation Day", date:19, venue:"Main Hall", organizer:"Innovation Team", highlight:true} ],
+  "October":[ {name:"Cyber Security Day", date:14, venue:"Online", organizer:"Security Team"} ],
+  "November":[ {name:"Internal Hackathon", date:7, venue:"Tech Lab", organizer:"Dev Team", highlight:true} ],
+  "December":[ {name:"Incubation Launch", date:5, venue:"Startup Hub", organizer:"Incubation Team"} ]
 };
-
 
 function generateMonth(monthIdx){
   const container=document.getElementById("monthContainer");
